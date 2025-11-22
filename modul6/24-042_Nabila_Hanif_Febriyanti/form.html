@@ -1,0 +1,65 @@
+<form method="POST" action="simpan.php">
+  <h3>Data Nota (Master)</h3>
+  <label>Id Nota:</label>
+  <input type="text" name="id_nota" required><br>
+
+  <label>Tanggal:</label>
+  <input type="date" name="tanggal" required><br>
+
+  <label>Nama Pelanggan:</label>
+  <input type="text" name="nama_pelanggan" required><br><br>
+
+  <h3>Item Barang (Detail)</h3>
+  <table id="tabelBarang" border="1" cellpadding="5">
+    <tr>
+      <th>Kode Barang</th>
+      <th>Nama Barang</th>
+      <th>Jumlah</th>
+      <th>Harga</th>
+      <th>Aksi</th>
+    </tr>
+    <tr>
+      <td><input type="text" name="kode_barang[]" required></td>
+      <td><input type="text" name="nama_barang[]" required></td>
+      <td><input type="number" name="jumlah[]" required oninput="hitungTotal()"></td>
+      <td><input type="number" name="harga[]" required oninput="hitungTotal()"></td>
+      <td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>
+    </tr>
+  </table>
+  <button type="button" onclick="tambahBaris()">Tambah Barang</button><br><br>
+
+  <label><b>Total Harga:</b></label>
+  <input type="number" name="total" id="total" readonly><br><br>
+
+  <input type="submit" value="Simpan Transaksi">
+</form>
+
+<script>
+function tambahBaris() {
+  let tabel = document.getElementById("tabelBarang");
+  let row = tabel.insertRow(-1);
+  row.innerHTML = `
+    <td><input type="text" name="kode_barang[]" required></td>
+    <td><input type="text" name="nama_barang[]" required></td>
+    <td><input type="number" name="jumlah[]" required oninput="hitungTotal()"></td>
+    <td><input type="number" name="harga[]" required oninput="hitungTotal()"></td>
+    <td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>`;
+}
+
+function hapusBaris(btn) {
+  let row = btn.parentNode.parentNode;
+  row.parentNode.removeChild(row);
+  hitungTotal();
+}
+
+function hitungTotal() {
+  let total = 0;
+  let tabel = document.getElementById("tabelBarang");
+  for (let i = 1; i < tabel.rows.length; i++) { // mulai dari 1 karena row 0 = header
+    const jumlah = Number(tabel.rows[i].querySelector('input[name="jumlah[]"]').value) || 0;
+    const harga = Number(tabel.rows[i].querySelector('input[name="harga[]"]').value) || 0;
+    total += jumlah * harga;
+  }
+  document.getElementById('total').value = total;
+}
+</script>

@@ -1,0 +1,100 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f4f6f9;
+  padding: 30px;
+  color: #333;
+}
+h1 {
+  color: #007bff;
+}
+h2 {
+  color: #007bff;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.4rem;
+}
+button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  transition: 0.2s;
+}
+button:hover {
+  opacity: 0.9;
+}
+
+button[name="simpan"],
+button[name="update"] {
+  background-color: #28a745;
+}
+button[name="batal"] {
+  background-color: #6c757d;
+}
+a[href*="edit.php"] button {
+  background-color: #f0ad4e;
+}
+a[href*="hapus.php"] button {
+  background-color: #d9534f;
+  margin-left: 5px;
+}
+a[href*="tambah.php"] button {
+  background-color: #28a745;
+  float: right;
+  margin-bottom: 20px;
+}
+
+/* =========== FORM =========== */
+form {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  margin: 50px auto;
+}
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+th,
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+th {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  background-color: #80c6ff;
+  color: #333;
+  font-weight: 600;
+}
+/* even menargetkan kelipatan 2 untuk zebra rows */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tr:hover {
+  background-color: #f1f1f1;
+}

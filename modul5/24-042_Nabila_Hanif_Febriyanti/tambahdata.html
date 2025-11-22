@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Tambah Data Supplier</title>
+<style>
+  body {
+    font-family: Arial;
+    color: #2a6496;
+    margin: 40px; /* kasih jarak dari tepi kiri atas */
+  }
+  table {
+    border-collapse: collapse;
+    margin-left: 0; /* biar nempel ke kiri */
+  }
+  td {
+    padding: 8px;
+  }
+  input {
+    padding: 6px;
+    width: 200px;
+  }
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .simpan {
+    background: #5cb85c;
+  }
+  .batal {
+    background: #d9534f;
+  }
+</style>
+</head>
+<body>
+
+<h3>Tambah Data Master Supplier</h3>
+
+<form action="datasimpan.php" method="post">
+
+<table>
+  <tr><td><b>Nama</b></td><td><input type="text" name="nama" placeholder="PT. Maju Bersama"></td></tr>
+  <tr><td><b>Telp</b></td><td><input type="text" name="telp" placeholder="08123456789"></td></tr>
+  <tr><td><b>Alamat</b></td><td><input type="text" name="alamat" placeholder="Surabaya"></td></tr>
+  <tr>
+    <td></td>
+    <td>
+      <button type="submit" name="simpan" class="btn simpan">Simpan</button>
+      <a href="tampilan.php" class="btn batal">Batal</a>
+    </td>
+  </tr>
+</table>
+</form>
+
+</body>
+</html>

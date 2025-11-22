@@ -1,0 +1,23 @@
+<?php
+require 'validate.inc';
+
+if (validateName($_POST, 'surname'))
+    echo 'Data OK!';
+else
+    echo 'Data invalid!';
+
+
+
+function validateName(&$errors, $field_list, $field_name)
+{
+    $pattern = "/^[a-zA-Z'-]+$/"; // format alfabet
+    if (!isset($field_list[$field_name]) || empty($field_list[$field_name])) {
+        $errors[$field_name] = 'required';
+    } elseif (!preg_match($pattern, $field_list[$field_name])) {
+        $errors[$field_name] = 'invalid';
+    }
+}
+
+
+
+?>

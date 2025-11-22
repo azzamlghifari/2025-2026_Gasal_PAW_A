@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Transaksi Nota</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f7faff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #30475e;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      flex: 1 1 400px;
+      max-width: 500px;
+    }
+
+    .card h3 {
+      color: #40514e;
+      border-bottom: 2px solid #dfe6e9;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="text"], input[type="date"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #e9ecef;
+    }
+
+    button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #357ABD;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .total {
+      margin-top: 15px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .submit-area {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input[readonly] {
+      background: #f0f3f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Form Input Transaksi Penjualan</h2>
+
+  <form method="POST" action="simpan.php">
+    <div class="container">
+
+      <!-- Kiri: Data Nota -->
+      <div class="card">
+        <h3>Data Nota</h3>
+
+        <label for="no_nota">Nomor Nota</label>
+        <input type="text" id="no_nota" name="nomor_nota" placeholder="NT001" required>
+
+        <label for="tanggal">Tanggal</label>
+        <input type="date" id="tanggal" name="tanggal" required>
+
+        <label for="pelanggan_id">ID Pelanggan</label>
+        <input type="text" id="pelanggan_id" name="pelanggan_id" placeholder="Masukkan ID pelanggan" required>
+      </div>
+
+      <!-- Kanan: Data Barang -->
+      <div class="card">
+        <h3>Detail Barang</h3>
+
+        <table id="tabelBarang">
+          <thead>
+            <tr>
+              <th>Kode</th>
+              <th>Harga</th>
+              <th>Jumlah</th>
+              <th>Subtotal</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="number" name="barang_id[]" required></td>
+              <td><input type="number" name="harga_satuan[]" required oninput="hitungSubtotal(this)"></td>
+              <td><input type="number" name="jumlah[]" required oninput="hitungSubtotal(this)"></td>
+              <td><input type="number" name="subtotal[]" readonly></td>
+              <td><button type="button" class="btn-danger" onclick="hapusBaris(this)">Hapus</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button type="button" onclick="tambahBaris()">+ Tambah Barang</button>
+
+        <div class="total">
+          Total Harga: Rp <input type="number" id="total_harga" name="total_harga" readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <input type="submit" value="Simpan Transaksi" style="padding: 10px 20px; border-radius: 8px; background: #27ae60; color: white; border: none; cursor: pointer;">
+    </div>
+  </form>
+
+  <script>
+    function tambahBaris() {
+      const tabel = document.getElementById("tabelBarang").getElementsByTagName("tbody")[0];
+      const baris = tabel.insertRow();
+      baris.innerHTML = `
+        <td><input type="number" name="barang_id[]" required></td>
+        <td><input type="number" name="harga_satuan[]" required oninput="hitungSubtotal(this)"></td>
+        <td><input type="number" name="jumlah[]" required oninput="hitungSubtotal(this)"></td>
+        <td><input type="number" name="subtotal[]" readonly></td>
+        <td><button type="button" class="btn-danger" onclick="hapusBaris(this)">Hapus</button></td>`;
+    }
+
+    function hapusBaris(btn) {
+      const baris = btn.closest("tr");
+      baris.remove();
+      hitungTotal();
+    }
+
+    function hitungSubtotal(input) {
+      const baris = input.closest("tr");
+      const harga = Number(baris.querySelector('input[name="harga_satuan[]"]').value) || 0;
+      const jumlah = Number(baris.querySelector('input[name="jumlah[]"]').value) || 0;
+      const subtotal = baris.querySelector('input[name="subtotal[]"]');
+      subtotal.value = harga * jumlah;
+      hitungTotal();
+    }
+
+    function hitungTotal() {
+      let total = 0;
+      document.querySelectorAll('input[name="subtotal[]"]').forEach(input => {
+        total += Number(input.value) || 0;
+      });
+      document.getElementById("total_harga").value = total;
+    }
+  </script>
+
+</body>
+</html>
